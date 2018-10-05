@@ -9,11 +9,15 @@ from django.conf import settings
 
 class Command(BaseCommand):
     help = "Delete all orphaned files"
-    base_options = (
-        make_option('--info', action='store_true', dest='info', default=False,
-                    help='If provided, the files will not be deleted.'),
-    )
-    option_list = BaseCommand.option_list + base_options
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--info',
+            action='store_true',
+            dest='info',
+            default=False,
+            help='If provided, the files will not be deleted'
+        )
 
     def handle(self, **options):
         self.only_info = options.get('info')
